@@ -1,33 +1,8 @@
-<!doctype html>
-<html lang="ru">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Расписание 8А</title>
-  <style>
-    :root { color-scheme: light; --purple:#6d35d5; --ink:#29213b; }
-    * { box-sizing:border-box; }
-    body { margin:0; min-height:100vh; display:grid; place-items:center; padding:24px;
-      font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
-      background:linear-gradient(145deg,#f4eaff,#8c55ed); color:var(--ink); }
-    main { width:min(100%,520px); background:#fff; border-radius:24px; padding:28px;
-      box-shadow:0 18px 50px #3b167733; text-align:center; }
-    .icon { font-size:52px; }
-    h1 { margin:8px 0; color:var(--purple); font-size:clamp(28px,7vw,42px); }
-    p { line-height:1.55; color:#655b75; }
-    .pill { display:inline-block; margin-top:10px; padding:10px 16px; border-radius:999px;
-      background:#f0e8ff; color:#6030bb; font-weight:600; }
-    footer { margin-top:22px; font-size:13px; color:#938aa0; }
-  </style>
-</head>
-<body>
-  <main>
-    <div class="icon" aria-hidden="true">📚</div>
-    <h1>Расписание 8А</h1>
-    <p>Страница школьного расписания готова к настройке.</p>
-    <p>Скоро здесь появятся расписание на сегодня и на всю неделю.</p>
-    <span class="pill">Мини-приложение в разработке</span>
-    <footer>Открой эту страницу через Telegram после подключения к боту.</footer>
-  </main>
-</body>
-</html>
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#7541d8"><title>Расписание 8А</title><script src="https://telegram.org/js/telegram-web-app.js"></script><style>
+:root{--a:#7541d8;--bg:#f5f1fc;--ink:#282238;--muted:#827b91}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,sans-serif;padding:calc(16px + env(safe-area-inset-top)) 16px 24px}header{padding:8px 4px 18px}h1{font-size:28px;margin:0 0 5px}header p{margin:0;color:var(--muted);font-size:14px}.tabs{display:flex;background:#e9e1f7;border-radius:14px;padding:4px;gap:4px;margin-bottom:16px}.tabs button{border:0;background:transparent;border-radius:11px;padding:11px;flex:1;font-size:15px;font-weight:600;color:#675b7e}.tabs button.active{background:white;color:var(--a);box-shadow:0 2px 8px #35205b12}.day{background:white;border-radius:18px;padding:16px;margin-bottom:12px;box-shadow:0 3px 14px #33204d0a}.dayhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.dayname{font-weight:700}.date{color:var(--muted);font-size:13px}.lesson{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid #eee9f5}.num{width:28px;height:28px;border-radius:9px;background:#f0e9fc;color:var(--a);display:grid;place-items:center;font-weight:700;font-size:13px;flex-shrink:0}.subject{font-size:15px}.empty{color:var(--muted);padding:8px 0}.todaytag{font-size:11px;background:#eee6fc;color:var(--a);padding:5px 8px;border-radius:20px;font-weight:700}.note{text-align:center;color:var(--muted);font-size:12px;padding:12px}</style></head><body><header><h1>📚 Расписание 8А</h1><p>Уроки на сегодня и ближайшую неделю</p></header><div class="tabs"><button id="todayTab" class="active" onclick="show('today')">Сегодня</button><button id="weekTab" onclick="show('week')">Неделя</button></div><main id="content"></main><div class="note">Расписание класса · Версия для Telegram</div><script>
+const BASE={0:[],1:["Разговоры о важном","Физкультура","Алгебра","Иностранный язык","История","Биология","Химия"],2:["ОБЗР","География","Русский язык","Русский язык","Геометрия","Физика","Музыка"],3:["Литература","Химия","Иностранный язык","Функциональная грамотность","Алгебра","Алгебра","История"],4:["Физкультура","Геометрия","Литература","Информатика","Иностранный язык","Биология","Россия — мои горизонты"],5:["Практикум по русскому","Русский язык","География","История","Вероятность и статистика","Технология","Физика"],6:[]};
+const names=["Воскресенье","Понедельник","Вторник","Среда","Четверг","Пятница","Суббота"],fmt=d=>d.toLocaleDateString("ru-RU",{day:"numeric",month:"long"}),isToday=d=>d.toDateString()===new Date().toDateString();
+function card(d){let ls=BASE[d.getDay()];return `<section class="day"><div class="dayhead"><div><div class="dayname">${names[d.getDay()]}</div><div class="date">${fmt(d)}</div></div>${isToday(d)?'<span class="todaytag">СЕГОДНЯ</span>':''}</div>${!ls.length?'<div class="empty">Уроков нет 🎉</div>':ls.map((x,i)=>`<div class="lesson"><span class="num">${i+1}</span><span class="subject">${x}</span></div>`).join("")}</section>`}
+function show(which){document.getElementById("todayTab").classList.toggle("active",which==="today");document.getElementById("weekTab").classList.toggle("active",which==="week");let now=new Date();if(which==="today")document.getElementById("content").innerHTML=card(now);else{let a=[];for(let i=0;i<7;i++){let d=new Date(now);d.setDate(now.getDate()+i);if(d.getDay()>0&&d.getDay()<6)a.push(card(d))}document.getElementById("content").innerHTML=a.join("")}}
+if(window.Telegram?.WebApp){Telegram.WebApp.ready();Telegram.WebApp.expand();try{Telegram.WebApp.setHeaderColor("#f5f1fc");Telegram.WebApp.setBackgroundColor("#f5f1fc")}catch(e){}}show("today");
+</script></body></html>
